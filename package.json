@@ -1,0 +1,44 @@
+{
+  "name": "Workstation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "client/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npx nw .",
+    "dev": "NODE_ENV=development /usr/local/bin/nw .",
+    "watch": "nodemon .",
+    "build": "node_modules/.bin/nicns --in icon.png --out icon.icns"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "openurl": "^1.1.1"
+  },
+  "window": {
+    "title": "Workstation Title",
+    "icon": "icon.png",
+    "toolbar": true,
+    "frame": true,
+    "width": 1000,
+    "height": 800,
+    "min_width": 400,
+    "min_height": 200
+  },
+  "node-remote": "*://*",
+  "devDependencies": {
+    "@types/nw.gui": "0.0.20",
+    "nodemon": "^1.18.9",
+    "nw": "^0.36.0"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "test/*",
+      "docs/*"
+    ],
+    "delay": "10000",
+    "exec": "npm run start",
+    "ext": "html js"
+  }
+}
