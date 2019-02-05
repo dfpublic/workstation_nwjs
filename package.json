@@ -5,7 +5,7 @@
   "main": "client/index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npx nw .",
+    "start": "NODE_ENV=production npx nw .",
     "dev": "NODE_ENV=development /usr/local/bin/nw .",
     "watch": "nodemon .",
     "build": "node_modules/.bin/nicns --in icon.png --out icon.icns"
