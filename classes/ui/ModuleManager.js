@@ -5,6 +5,7 @@ const ELEMENTID_MODULE_CONTAINER = 'module-container';
 const DIRROOT_MODULES = '/client/modules';
 const ENTRYFILE_MODULE = 'index.html';
 const CLASSNAME_MENU_ACTIVE = 'blue';
+const CLASS_NAME_TABITEM = 'tab-item';
 const MODULE_CONTAINER_PREFIX = 'module_';
 const MODULE_ACTIVATION_BUTTON_PREFIX = 'module_activator_';
 const openurl = require('openurl');
@@ -95,6 +96,7 @@ class ModuleManager {
         let self = this;
         let menu_item = document.createElement("button");
         menu_item.id = self.getModuleActivatorElementId(module_identifier);
+        menu_item.classList.add(CLASS_NAME_TABITEM);
         let button_text_elem = document.createTextNode(button_text);
         menu_item.onclick = function () {
             self.setModuleActive(module_identifier);

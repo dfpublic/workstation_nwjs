@@ -3,12 +3,17 @@ body {
     width: 100%;
     margin: 0;
     overflow: hidden;
+    background-color: rgb(230, 230, 230);
 }
 
 html {
     height: 100%;
     width: 100%;
     overflow: hidden;
+}
+
+.tab-item {
+    height: 60px;
 }
 
 /* Normal white Button as seen on Google.com*/
