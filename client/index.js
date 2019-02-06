@@ -1,9 +1,9 @@
 var win = nw.Window.get();
-var gui = require('nw.gui');
-let System = require("./../system.js");
 if (process.env.NODE_ENV === 'development') {
     win.showDevTools();
 }
+var gui = require('nw.gui');
+let System = require("./../system.js");
 //Class import
 let ModuleManager = System.classes.ui.ModuleManager;
 let ShortcutManager = System.classes.ui.ShortcutManager;

@@ -1,2 +1,4 @@
 /node_modules
 /_modules.json
+/config/*
+!/config/modules.json
