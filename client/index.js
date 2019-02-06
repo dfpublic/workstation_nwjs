@@ -13,7 +13,7 @@ let modules = System.getModules();
 let module_manager = new ModuleManager(document, modules, {
     log: console.log
 });
-let shortcut_manager = new ShortcutManager(gui, {log: console.log});
+let shortcut_manager = new ShortcutManager(gui, document, {log: console.log});
 document.addEventListener("DOMContentLoaded", function (event) {
     function init_app_nav() {
         //do work

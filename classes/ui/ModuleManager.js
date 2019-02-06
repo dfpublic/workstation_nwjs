@@ -1,3 +1,5 @@
+const Fs = require('fs');
+const http = require('http');
 const Module = require("../general/Module");
 const ELEMENTID_MODULE_CONTAINER = 'module-container';
 const DIRROOT_MODULES = '/client/modules';
@@ -151,13 +153,18 @@ class ModuleManager {
             openurl.open(e.targetUrl, () => { });
         }
         current_module_content.addEventListener('newwindow', new_window_handler);
-        current_module_content.addEventListener("keypress", function (elem, event) {
-            self.debugLog(event);
-        })
+        current_module_content.addEventListener('permissionrequest', function (event) {
+            switch (event.permission) {
+                case 'download':
+                    event.request.allow();
+                    break;
+            }
+        });
+
         return current_module_content;
 
     }
-    refreshCurrentModule(){
+    refreshCurrentModule() {
         let module_id = this.getModuleElementId(this.active_module_identifier);
         /** @type {*} webview type */
         let module_element = this.document.getElementById(module_id);
