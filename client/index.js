@@ -11,7 +11,7 @@ let ShortcutManager = System.classes.ui.ShortcutManager;
 //Managers and configs
 let modules = System.getModules();
 let module_manager = new ModuleManager(document, modules, {
-    log: console.log
+    log: console.log, gui
 });
 let shortcut_manager = new ShortcutManager(gui, document, {log: console.log});
 document.addEventListener("DOMContentLoaded", function (event) {

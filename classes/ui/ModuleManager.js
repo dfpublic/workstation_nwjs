@@ -10,12 +10,15 @@ const MODULE_CONTAINER_PREFIX = 'module_';
 const MODULE_ACTIVATION_BUTTON_PREFIX = 'module_activator_';
 const openurl = require('openurl');
 const ModuleElement = require("./ModuleElement");
+/**
+ * @typedef {typeof import("../../node_modules/@types/nw.gui/index")} NwGui 
+ */
 class ModuleManager {
     /**
      * 
      * @param {Document} document 
      * @param {Object<string, Module>} system_modules
-     * @param {{log: Function}} options
+     * @param {{log: Function, gui: NwGui}} options
      */
     constructor(document, system_modules, options) {
         this.document = document;
@@ -103,6 +106,28 @@ class ModuleManager {
             self.setModuleActive(module_identifier);
         }
         menu_item.appendChild(button_text_elem);
+
+
+        let {gui} = this.options;
+        let menu = new gui.Menu();
+        menu.append(new gui.MenuItem({ label: 'Refresh', click: function() {self.refreshModule(module_identifier)} }));
+        // menu.append(new gui.MenuItem({ label: 'Edit' }));
+        // menu.append(new gui.MenuItem({ label: 'Email' }));
+        // menu.append(new gui.MenuItem({ label: 'Play' }));
+        // menu.append(new gui.MenuItem({ label: 'Tick' }));
+        // menu.append(new gui.MenuItem({ type: 'separator' }));
+        // let submenu = new gui.Menu();
+        // submenu.append(new gui.MenuItem({ type: 'checkbox', label: 'box1' }));
+        // submenu.append(new gui.MenuItem({ type: 'checkbox', label: 'box2' }));
+        // submenu.append(new gui.MenuItem({ type: 'checkbox', label: 'box3' }));
+        // submenu.append(new gui.MenuItem({ type: 'checkbox', label: 'box4' }));
+        // menu.append(new gui.MenuItem({ label: 'Disk', submenu: submenu }));
+
+        menu_item.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            menu.popup(event.x, event.y);
+            return false;
+        });
         return menu_item;
     }
     /**
@@ -140,13 +165,21 @@ class ModuleManager {
         let self = this;
         let _module = self.getModule(module_identifier);
         let module_element_id = this.getModuleElementId(module_identifier); 
-        let module_element = new ModuleElement(self.document, _module, module_identifier, module_element_id, {log: self.debugLog});
+        let module_element = new ModuleElement(self.document, _module, module_identifier, module_element_id, self.options);
         let element = module_element.getHTMLElement();
         return element;
 
     }
     refreshCurrentModule() {
-        let module_id = this.getModuleElementId(this.active_module_identifier);
+        let self = this;
+        self.refreshModule(self.active_module_identifier);
+        // let module_id = this.getModuleElementId(this.active_module_identifier);
+        // /** @type {*} webview type */
+        // let module_element = this.document.getElementById(module_id);
+        // module_element.reload();
+    }
+    refreshModule(module_identifier) {
+        let module_id = this.getModuleElementId(module_identifier);
         /** @type {*} webview type */
         let module_element = this.document.getElementById(module_id);
         module_element.reload();

@@ -1,12 +1,15 @@
 const Module = require("../general/Module");
 const openurl = require('openurl');
+/**
+ * @typedef {typeof import("../../node_modules/@types/nw.gui/index")} NwGui 
+ */
 class ModuleElement {
     /**
      * @param {Document} document 
      * @param {Module} _module
      * @param {string} identifier
      * @param {string} module_element_id
-     * @param {{log: Function}} options
+     * @param {{log: Function, gui: NwGui}} options
      */
     constructor(document, _module, identifier, module_element_id, options) {
         this.document = document;
@@ -25,6 +28,7 @@ class ModuleElement {
         this._initModuleCore(module_element);
         this._initModuleStyles(module_element);
         this._initModulePermissions(module_element);
+        this._initModuleMenus();
     }
     _initModuleCore(module_element) {
         let { _module, module_element_id } = this;
@@ -56,6 +60,32 @@ class ModuleElement {
                     event.request.allow();
                     break;
             }
+        });
+    }
+
+    _initModuleMenus() {
+        let self = this;
+        self.debugLog('Initializing module menus.');
+        let {gui} = this.options;
+        let menu = new gui.Menu();
+        let submenu = new gui.Menu();
+        submenu.append(new gui.MenuItem({ type: 'checkbox', label: 'box1' }));
+        submenu.append(new gui.MenuItem({ type: 'checkbox', label: 'box2' }));
+        submenu.append(new gui.MenuItem({ type: 'checkbox', label: 'box3' }));
+        submenu.append(new gui.MenuItem({ type: 'checkbox', label: 'box4' }));
+        menu.append(new gui.MenuItem({ label: 'Cut' }));
+        menu.append(new gui.MenuItem({ label: 'Edit' }));
+        menu.append(new gui.MenuItem({ label: 'Email' }));
+        menu.append(new gui.MenuItem({ label: 'Play' }));
+        menu.append(new gui.MenuItem({ label: 'Tick' }));
+        menu.append(new gui.MenuItem({ type: 'separator' }));
+        menu.append(new gui.MenuItem({ label: 'Disk', submenu: submenu }));
+
+        self.module_element.addEventListener('contextmenu', function(event) {
+            self.debugLog("Presenting context menu.");
+            event.preventDefault();
+            menu.popup(event.x, event.y);
+            return false;
         });
     }
 
