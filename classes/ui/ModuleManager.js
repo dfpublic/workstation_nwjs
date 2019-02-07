@@ -148,6 +148,7 @@ class ModuleManager {
         current_module_content.setAttribute('src', url_target);
         current_module_content.style.width = "100%";
         current_module_content.style.height = "100%";
+        current_module_content.setZoom(0.95);
         /**
          * @param {*} e New window event handler
          */
