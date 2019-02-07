@@ -9,6 +9,7 @@ const CLASS_NAME_TABITEM = 'tab-item';
 const MODULE_CONTAINER_PREFIX = 'module_';
 const MODULE_ACTIVATION_BUTTON_PREFIX = 'module_activator_';
 const openurl = require('openurl');
+const ModuleElement = require("./ModuleElement");
 class ModuleManager {
     /**
      * 
@@ -137,34 +138,11 @@ class ModuleManager {
      */
     createModuleElement(module_identifier) {
         let self = this;
-        let system_module = this.getModule(module_identifier);
-        let current_module_content = this.document.createElement('webview');
-        let data_partition = system_module.data_partition ? system_module.data_partition : 'global';
-        current_module_content.setAttribute('partition', `persist:${data_partition}`); //Set the data partition
-        current_module_content.id = this.getModuleElementId(module_identifier); //Initialize handle
-        current_module_content.setAttribute('nwdisable', '');
-        current_module_content.setAttribute('nwfaketop', '');
-        let url_target = system_module.url || `${DIRROOT_MODULES}/${module_identifier}/${ENTRYFILE_MODULE}`;
-        current_module_content.setAttribute('src', url_target);
-        current_module_content.style.width = "100%";
-        current_module_content.style.height = "100%";
-        current_module_content.setZoom(0.95);
-        /**
-         * @param {*} e New window event handler
-         */
-        function new_window_handler(e) {
-            openurl.open(e.targetUrl, () => { });
-        }
-        current_module_content.addEventListener('newwindow', new_window_handler);
-        current_module_content.addEventListener('permissionrequest', function (event) {
-            switch (event.permission) {
-                case 'download':
-                    event.request.allow();
-                    break;
-            }
-        });
-
-        return current_module_content;
+        let _module = self.getModule(module_identifier);
+        let module_element_id = this.getModuleElementId(module_identifier); 
+        let module_element = new ModuleElement(self.document, _module, module_identifier, module_element_id, {log: self.debugLog});
+        let element = module_element.getHTMLElement();
+        return element;
 
     }
     refreshCurrentModule() {
