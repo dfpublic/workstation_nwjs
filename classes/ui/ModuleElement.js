@@ -28,24 +28,33 @@ class ModuleElement {
         this._initModuleCore(module_element);
         this._initModuleStyles(module_element);
         this._initModulePermissions(module_element);
+        this._initModuleSource(module_element);
     }
+    /**
+     * @param {HTMLElement} module_element 
+     */
     _initModuleCore(module_element) {
         let { _module, module_element_id } = this;
         let system_module = _module;
         module_element.id = module_element_id; //Initialize handle
-        let url_target = system_module.url;
         module_element.setAttribute('nwdisable', '');
         module_element.setAttribute('nwfaketop', '');
-        module_element.setAttribute('src', url_target);
         let data_partition = system_module.data_partition ? system_module.data_partition : 'global';
         module_element.setAttribute('partition', `persist:${data_partition}`); //Set the data partition
 
     }
+    /**
+     * @param {HTMLElement} module_element 
+     */
     _initModuleStyles(module_element) {
-        module_element.style.width = "100%";
-        module_element.style.height = "100%";
+        module_element.classList.add('module-element');
+        // module_element.style.width = "1000px";
+        // module_element.style.height = "1000px";
         module_element.setZoom(0.95);
     }
+    /**
+     * @param {HTMLElement} module_element 
+     */
     _initModulePermissions(module_element) {
         //Open links in new window
         module_element.addEventListener('newwindow', function (event) {
@@ -60,6 +69,15 @@ class ModuleElement {
                     break;
             }
         });
+    }
+    /**
+     * @param {HTMLElement} module_element 
+     */
+    _initModuleSource(module_element) {
+        let { _module, module_element_id } = this;
+        let system_module = _module;
+        let url_target = system_module.url;
+        module_element.setAttribute('src', url_target);
     }
 
     getHTMLElement() {

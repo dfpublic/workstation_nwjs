@@ -8,6 +8,7 @@
     "start": "NODE_ENV=production npx nw .",
     "work": "NODE_ENV=work npx nw .",
     "dev": "NODE_ENV=development /usr/local/bin/nw .",
+    "debug": "NODE_ENV=production /usr/local/bin/nw .",
     "watch": "nodemon .",
     "build": "node_modules/.bin/nicns --in icon.png --out icon.icns"
   },
