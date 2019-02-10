@@ -2,3 +2,5 @@
 /_modules.json
 /config/*
 !/config/modules.json
+/user_data
+.DS_Store

@@ -1,18 +1,24 @@
 var win = nw.Window.get();
-if (process.env.NODE_ENV === 'development') {
+if (process.env.DEBUG === 'true') {
     win.showDevTools();
 }
 var gui = require('nw.gui');
 let System = require("./../system.js");
+System.init();
 //Class import
 let ModuleManager = System.classes.ui.ModuleManager;
 let ShortcutManager = System.classes.ui.ShortcutManager;
 
 //Managers and configs
-let modules = System.getModules();
+let config = System.getConfig();
+let modules = config.getModules();
 let module_manager = new ModuleManager(document, modules, {
     log: console.log, gui
 });
+
+//Init the page title
+document.title = `Workstation (${config.getDisplayName()})`;
+
 let shortcut_manager = new ShortcutManager(gui, document, {log: console.log});
 document.addEventListener("DOMContentLoaded", function (event) {
     function init_app_nav() {
@@ -25,7 +31,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
         });
     }
     init_app_nav();
-    module_manager.setModuleActive(System.default_module);
+    let default_module = System.getDefaultModule();
+    module_manager.setModuleActive(default_module);
     module_manager.preloadModules();
 });
 
