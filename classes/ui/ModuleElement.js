@@ -56,6 +56,7 @@ class ModuleElement {
      * @param {HTMLElement} module_element 
      */
     _initModulePermissions(module_element) {
+        let self = this;
         //Open links in new window
         module_element.addEventListener('newwindow', function (event) {
             openurl.open(event.targetUrl, () => { });
@@ -70,6 +71,7 @@ class ModuleElement {
             }
         });
     }
+    
     /**
      * @param {HTMLElement} module_element 
      */
@@ -82,6 +84,12 @@ class ModuleElement {
 
     getHTMLElement() {
         return this.module_element;
+    }
+    refresh() {
+        let self = this;
+        let module_element_id = self.module_element_id;
+        let module_element = self.document.getElementById(module_element_id);
+        module_element.reload();
     }
 }
 module.exports = ModuleElement;

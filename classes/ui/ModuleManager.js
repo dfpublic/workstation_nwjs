@@ -25,6 +25,8 @@ class ModuleManager {
         this.modules = system_modules;
         this.active_module_identifier = null;
         this.options = options;
+        /** @type {Object<string, ModuleElement>} */
+        this.module_elements = {};
     }
     /**
      * Logs a string in the console
@@ -166,6 +168,7 @@ class ModuleManager {
         let _module = self.getModule(module_identifier);
         let module_element_id = this.getModuleElementId(module_identifier); 
         let module_element = new ModuleElement(self.document, _module, module_identifier, module_element_id, self.options);
+        this.module_elements[module_identifier] = module_element;
         let element = module_element.getHTMLElement();
         return element;
 
@@ -173,16 +176,10 @@ class ModuleManager {
     refreshCurrentModule() {
         let self = this;
         self.refreshModule(self.active_module_identifier);
-        // let module_id = this.getModuleElementId(this.active_module_identifier);
-        // /** @type {*} webview type */
-        // let module_element = this.document.getElementById(module_id);
-        // module_element.reload();
     }
     refreshModule(module_identifier) {
-        let module_id = this.getModuleElementId(module_identifier);
-        /** @type {*} webview type */
-        let module_element = this.document.getElementById(module_id);
-        module_element.reload();
+        let _module_element = this.module_elements[module_identifier];
+        _module_element.refresh();
     }
     /**
      * Preloads a module
