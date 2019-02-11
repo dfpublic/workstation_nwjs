@@ -29,6 +29,7 @@ class ModuleElement {
         this._initModuleStyles(module_element);
         this._initModulePermissions(module_element);
         this._initModuleSource(module_element);
+        // this.injectScript(module_element, `function asdf() {}`);
     }
     /**
      * @param {HTMLElement} module_element 
@@ -42,6 +43,12 @@ class ModuleElement {
         let data_partition = system_module.data_partition ? system_module.data_partition : 'global';
         module_element.setAttribute('partition', `persist:${data_partition}`); //Set the data partition
 
+    }
+    injectScript(module_element, script) {
+        let self = this;
+        module_element.addEventListener('contentload', function(e) {
+            module_element.executeScript({ code: script, mainWorld: true });
+          });
     }
     /**
      * @param {HTMLElement} module_element 
@@ -71,7 +78,7 @@ class ModuleElement {
             }
         });
     }
-    
+
     /**
      * @param {HTMLElement} module_element 
      */
